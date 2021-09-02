@@ -112,6 +112,44 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+#LOCAL bin directory
+export PATH="$HOME/.local/bin:$PATH"
+
+# Expand the history size
+export HISTFILESIZE=10000
+export HISTSIZE=500
+
+# Don't put duplicate lines in the history and do not add lines that start with a space
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+
+# Ignore case on auto-completion
+# Note: bind used instead of sticking these in .inputrc
+if [[ $iatest > 0 ]]; then bind "set completion-ignore-case on"; fi
+
+# Show auto-completion list automatically, without double tab
+
+if [[ $iatest > 0 ]]; then bind "set show-all-if-ambiguous On"; fi
+# To have colors for ls and all grep commands such as grep, egrep and zgrep
+export CLICOLOR=1
+export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
+#export GREP_OPTIONS='--color=auto' #deprecated
+alias grep="/usr/bin/grep $GREP_OPTIONS"
+unset GREP_OPTIONS
+
+# Color for manpages in less makes manpages a little easier to read
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+# cd into the old directory
+alias bd='cd "$OLDPWD"
+
+# Remove a directory and all files
+alias rmd='/bin/rm  --recursive --force --verbose 
 
 # Stop after sending count ECHO_REQUEST packets #
 alias ping='ping -c 5'
@@ -202,7 +240,6 @@ export MANPAGER='less -s -M +Gg'
 
 ## this one saved by butt so many times ##
 alias wget='wget -c'
-alias ports='netstat -tulanp'
 alias path='echo -e ${PATH//:/\\n}'
 
 
@@ -281,7 +318,127 @@ ssidf() {
 }
 alias ssid=ssidf
 
-alias ll="ls -lai"
+# Copy file with a progress bar
+cpp()
+{
+	set -e
+	strace -q -ewrite cp -- "${1}" "${2}" 2>&1 \
+	| awk '{
+	count += $NF
+	if (count % 10 == 0) {
+		percent = count / total_size * 100
+		printf "%3d%% [", percent
+		for (i=0;i<=percent;i++)
+			printf "="
+			printf ">"
+			for (i=percent;i<100;i++)
+				printf " "
+				printf "]\r"
+			}
+		}
+	END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
+}
+
+# Copy and go to the directory
+cpg ()
+{
+	if [ -d "$2" ];then
+		cp $1 $2 && cd $2
+	else
+		cp $1 $2
+	fi
+}
+
+# Move and go to the directory
+mvg ()
+{
+	if [ -d "$2" ];then
+		mv $1 $2 && cd $2
+	else
+		mv $1 $2
+	fi
+}
+
+# Create and go to the directory
+mkdirg ()
+{
+	mkdir -p $1
+	cd $1
+}
+
+# Goes up a specified number of directories  (i.e. up 4)
+up ()
+{
+	local d=""
+	limit=$1
+	for ((i=1 ; i <= limit ; i++))
+		do
+			d=$d/..
+		done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
+}
+
+#Automatically do an ls after each cd
+# cd ()
+# {
+# 	if [ -n "$1" ]; then
+# 		builtin cd "$@" && ls
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+# }
+
+
+# Show current network information
+netinfo ()
+{
+	echo "--------------- Network Information ---------------"
+	/sbin/ifconfig | awk /'inet addr/ {print $2}'
+	echo ""
+	/sbin/ifconfig | awk /'Bcast/ {print $3}'
+	echo ""
+	/sbin/ifconfig | awk /'inet addr/ {print $4}'
+
+	/sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+	echo "---------------------------------------------------"
+}
+
+
+# Alias's for multiple directory listing commands
+alias la='ls -Alh' # show hidden files
+alias ls='ls -aFh --color=always' # add colors and file type extensions
+alias lx='ls -lXBh' # sort by extension
+alias lk='ls -lSrh' # sort by size
+alias lc='ls -lcrh' # sort by change time
+alias lu='ls -lurh' # sort by access time
+alias lr='ls -lRh' # recursive ls
+alias lt='ls -ltrh' # sort by date
+alias lm='ls -alh |more' # pipe through 'more'
+alias lw='ls -xAh' # wide listing format
+alias ll='ls -Fls' # long listing format
+alias labc='ls -lap' #alphabetical sort
+alias lf="ls -l | egrep -v '^d'" # files only
+alias ldir="ls -l | egrep '^d'" # directories only
+
+# alias chmod commands
+alias mx='chmod a+x'
+alias 000='chmod -R 000'
+alias 644='chmod -R 644'
+alias 666='chmod -R 666'
+alias 755='chmod -R 755'
+alias 777='chmod -R 777'
+
+# Search command line history
+alias h="history | grep "
+
+alias tree='tree -CAhF --dirsfirst'
+alias treed='tree -CAFd'
+alias mountedinfo='df -hT'
+
 alias ter="sensors"
 alias net="ip -s addres"
 alias untar='tar -zxvf'
@@ -290,11 +447,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias ls='ls --color=auto'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias multitail='multitail --no-repeat -c'
 alias diff='colordiff'
 alias mount='mount |column -t'
 alias now='date +"%T"'
@@ -314,17 +467,14 @@ alias mac="inxi -zv8 |lolcat"
 alias weather="inxi -wxxx |lolcat"
 alias machine="inxi -Fxxxrza |lolcat"
 alias non-free="xbps-query -Mi --repo=https://alpha.de.repo.voidlinux.org/current/nonfree -s \* | lolcat"
-alias doit="topgrade  && sudo xbps-remove -RO && sudo vkpurge rm all && hblock &&  git-update && xanmod && goodies && nvoid && cd ~ && clear"
+alias doit="sce && topgrade && clean  && hblock &&  ytfzfi && clear"
+alias ytfzfi="curl -sL "https://raw.githubusercontent.com/pystardust/ytfzf/master/ytfzf" | sudo tee /usr/local/bin/ytfzf >/dev/null && sudo chmod 755 /usr/local/bin/ytfzf"
 alias etcher="cd ~/Plantillas/varios/etcher && npm start"
 alias goodies="cd ~/Plantillas/void-linux/void-goodies && git pull"
 alias xanmod="cd ~/Plantillas/void-linux/xanmod/void-packages && git pull"
 alias nvoid="cd ~/Plantillas/void-linux/nvoid && git pull"
-alias git-update=" cd ~/Plantillas/void-linux/void-packages && git pull &&  cd ~/Plantillas/void-linux/void-mklive && git pull && cd ~/Plantillas/void-linux/xdeb && git pull"
+alias git-update=" cd ~/Plantillas/void-linux/void-packages && git pull &&  cd ~/Plantillas/void-linux/void-mklive && git pull"
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg |lolcat"
-alias probe="sudo -E hw-probe -all -upload"
-alias trash="sudo rm -rf ~/.local/share/Trash/*"
-alias mac="inxi -zv8"
-alias weather="inxi -wxxx"
 alias loc="locate"
 alias lc="lsd -lA"
 alias ext="extract"
@@ -347,7 +497,14 @@ alias ymir="cd ~/Plantillas/void-linux/ymir-linux/void-packages"
 alias ymirp="cd ~/Plantillas/void-linux/ymir-linux/void-packages && git pull |lolcat"
 alias voidp="git clone git://github.com/void-linux/void-packages.git && xbpsbb"
 alias services="sudo sv status /var/service/*"
+alias vi="vim"
+alias nerdfetch="curl -fsSL https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/master/nerdfetch | sh"
 eval $(thefuck --alias joder)
+
+#Keybindings Kitty
+alias icat="kitty +kitten icat"
+alias d="kitty +kitten diff"
+alias clip="kitty +kitten clipboard"
 
 #youtube-dl
 alias yta-aac="youtube-dl --extract-audio --audio-format aac |lolcat"
@@ -449,7 +606,6 @@ ex ()
   fi
 }
 
-wal -n -q -i /home/jose/Imágenes/walls/wall8.jpg
-export PATH="$HOME/.local/bin:$PATH"
-neofetch
 
+wal -n -q -i /home/jose/Imágenes/walls/wall12.jpg
+neofetch

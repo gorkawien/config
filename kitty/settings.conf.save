@@ -24,7 +24,7 @@ close_on_child_death no
 #: to yes means that any background processes still using the terminal
 #: can fail silently because their stdout/stderr/stdin no longer work.
 
-allow_remote_control no
+allow_remote_control yes
 
 #: Allow other programs to control kitty. If you turn this on other
 #: programs can control all aspects of kitty, including sending text
@@ -87,13 +87,6 @@ term xterm-kitty
 #: }}}
 
 
-enabled_layouts grid
-enabled_layouts stack
-enabled_layouts horizontal
-enabled_layouts vertical
-enabled_layouts tall:bias=70;full_size=2
-enabled_layouts tall:bias=50;full_size=1;mirrored=false
-
 background_opacity 0.6
 dynamic_background_opacity yes
 dim_opacity 0.65
@@ -102,3 +95,4 @@ term screen-256color
 
 kitty_mod ctrl+shift
 map ctrl+f>2 set_font_size 12
+
