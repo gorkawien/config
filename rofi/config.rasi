@@ -1,0 +1,20 @@
+/* Rofi config file */
+configuration {
+modi: "window,drun,file-browser,combi";
+ combi-modi: "window,drun,file-browser";
+    width: 40;
+    padding: 20;
+    location: 2;
+    lines: 12;
+    columns: 2;
+    sidebar-mode: true;
+    display-window: "";
+    display-windowcd: "";
+    display-file-browser: "";
+    display-drun: "";
+    display-combi: ""; 
+    show-icons: true;
+    icon-theme: "Simply-Gray-Circles";  
+  font: "JetBrainsMono NerdFont Bold 12";
+}
+@import "~/.cache/wal/colors-rofi-dark"
