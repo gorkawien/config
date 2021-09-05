@@ -1,39 +1,22 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Path to your oh-my-bash installation.
+export OSH=/home/jose/.oh-my-bash
 
-# Path to your oh-my-zsh installation.
-export ZSH="/home/jose/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="0i0"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-bash is loaded.
+OSH_THEME="demula"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# export UPDATE_OSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -45,8 +28,6 @@ ZSH_THEME="0i0"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -56,43 +37,50 @@ ZSH_THEME="0i0"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="dd.mm.yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# Would you like to use another custom folder than $OSH/custom?
+# OSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
+# Custom completions may be added to ~/.oh-my-bash/custom/completions/
+# Example format: completions=(ssh git bundler gem pip pip3)
+# Add wisely, as too many completions slow down shell startup.
+completions=(
+  git
+  composer
+  ssh
+)
+
+# Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
+# Custom aliases may be added to ~/.oh-my-bash/custom/aliases/
+# Example format: aliases=(vagrant composer git-avh)
+# Add wisely, as too many aliases slow down shell startup.
+aliases=(
+  general
+ls
+chmod
+misc)
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
+# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  bashmarks
+)
 
-plugins=(extract
-git
-git-extras
-you-should-use
-zfzf
-zsh-autosuggestions
-zsh-completions
-zsh-syntax-highlighting
-zsh-thefuck
-history-substring-search)
-
-
-source $ZSH/oh-my-zsh.sh
+source $OSH/oh-my-bash.sh
 
 # User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
  export LANG=es_ES.UTF-8
- 
- #LOCAL bin directory
+
+#LOCAL bin directory
 export PATH="$HOME/.local/bin:$PATH"
 
 # Expand the history size
@@ -101,9 +89,6 @@ export HISTSIZE=500
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
 export HISTCONTROL=erasedups:ignoredups:ignorespace
-
-# Note: bind used instead of sticking these in .inputrc
-if [[ $iatest > 0 ]]; then bind "set completion-ignore-case on"; fi
 
 # Show auto-completion list automatically, without double tab
 if [[ $iatest > 0 ]]; then bind "set show-all-if-ambiguous On"; fi
@@ -203,14 +188,17 @@ up ()
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-bash libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-bash
+# users are encouraged to define aliases within the OSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# alias bashconfig="mate ~/.bashrc"
+# alias ohmybash="mate ~/.oh-my-bash"
 
 #Void Linux
 alias search="xbps-query -Rs"
@@ -223,7 +211,8 @@ alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias restricted="void && grep -rl '^restricted=' srcpkgs/"
 alias services="sudo sv status /var/service/*"
 alias non-free="xbps-query -Mi --repo=https://alpha.de.repo.voidlinux.org/current/nonfree -s \*"
-alias doit="src && topgrade && clean && hblock && ytfzfi && clear"
+alias doit="sce && topgrade && clean && hblock && ytfzfi && clear"
+alias sce="cd ~/ && source .bashrc"
 alias void="cd /home/jose/Plantillas/void-linux/void-packages"
 alias mklive="cd /home/jose/Plantillas/void-linux/void-mklive"
 alias ignpa="echo "ignorepkg=pulseaudio" | sudo tee -a /etc/xbps.d/XX-ignore.conf"
@@ -268,22 +257,6 @@ alias covpt="curl -L covid19.trackercli.com/pt"
 alias covnl="curl -L covid19.trackercli.com/nl"
 alias covch="curl -L covid19.trackercli.com/ch"
 
-# Alias's for multiple directory listing commands
-alias la='ls -Alh' # show hidden files
-alias ls='ls -aFh --color=always' # add colors and file type extensions
-alias lx='ls -lXBh' # sort by extension
-alias lk='ls -lSrh' # sort by size
-alias lc='ls -lcrh' # sort by change time
-alias lu='ls -lurh' # sort by access time
-alias lr='ls -lRh' # recursive ls
-alias lt='ls -ltrh' # sort by date
-alias lm='ls -alh |more' # pipe through 'more'
-alias lw='ls -xAh' # wide listing format
-alias ll='ls -Fls' # long listing format
-alias labc='ls -lap' #alphabetical sort
-alias lf="ls -l | egrep -v '^d'" # files only
-alias ldir="ls -l | egrep '^d'" # directories only
-
 # I am lazy
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -297,13 +270,14 @@ alias fonts="cd /usr/share/fonts"
 alias icons="cd /usr/share/icons"
 alias trash="sudo rm -rf ~/.local/share/Trash/*"
 alias npmu="sudo npm upgrade -g npm"
-alias nzsh=" cd ~ && nano .zshrc"
-alias sce=" cd ~ && source .zshrc"
+alias nzsh=" cd ~ && nano .bashrc"
+alias chsh="chsh -s /bin/zsh"
+alias sce="src"
 alias del="rm -rf"
 alias ft="fc-cache -f -v"
-alias kzsh="kate ~/.zshrc"
+alias kzsh="kate ~/.bashrc"
 alias probe="sudo -E hw-probe -all -upload"
-alias fzsh="cd ~ && featherpad .zshrc"
+alias fzsh="cd ~ && featherpad .bashrc"
 alias npmaf="npm audit fix"
 alias ter="sensors"
 alias diff='colordiff'
@@ -314,16 +288,17 @@ alias lc="lsd -lA"
 alias ext="extract"
 alias vi="vim"
 alias mount='mount |column -t'
-alias chsh="chsh -s /bin/bash"
-#Inxi
-alias mac="inxi -zv8"
-alias weather="inxi -wxxx"
-alias machine="inxi -Fxxxrza"
 
-# Kitty
+#Alias Kitty
 alias icat="kitty +kitten icat"
 alias d="kitty +kitten diff"
 alias clip="kitty +kitten clipboard"
+
+#Alias inxi
+
+alias mac="inxi -zv8"
+alias weather="inxi -wxxx"
+alias machine="inxi -Fxxxrza"
 
 #Ricing
 alias nerdfetch="curl -fsSL https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/master/nerdfetch | sh"
@@ -457,31 +432,5 @@ alias psf="ps auxfww"
 #given a PID, intercept the stdout and stderr
 alias intercept="sudo strace -ff -e trace=write -e write=1,2 -p" 
 
-#
-# # ex - archive extractor
-# # usage: ex <file>
-ex ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1     ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-
-eval $(thefuck --alias joder)
 wal -n -q -i /home/jose/Imágenes/walls/wall12.jpg
-neofetch
+nerdfetch
